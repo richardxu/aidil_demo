@@ -6,10 +6,16 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
+import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class MyService extends Service {
     private static final String TAG = "MyService";
+
+    private LinkedList<Person> personLinkedList = new LinkedList<Person>();
 
     public MyService() {
     }
@@ -68,17 +74,17 @@ public class MyService extends Service {
             }
         }
 
-//        @Override
-//        public IBinder asBinder()
-//        {
-//            return (IBinder) Stub.asInterface();
-//        }
-//
-//        @Override
-//        public void sayHello() {
-//            Log.d(TAG, " ============ Hello, My Service here ======= ");
-//            Toast.makeText(getApplicationContext()," ============ Hello, My Service here ======= ",Toast.LENGTH_LONG).show();
-//        }
+        @Override
+        public void savePersonInfo(Person person) throws RemoteException {
+            if(person != null){
+                personLinkedList.add(person);
+            }
+        }
+
+        @Override
+        public List<Person> getAllPerson() throws RemoteException {
+            return personLinkedList;
+        }
     }
 
 

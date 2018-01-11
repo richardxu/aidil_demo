@@ -11,8 +11,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.List;
+
 import static android.content.Context.BIND_AUTO_CREATE;
 import static com.richard.servicedemo.R.id.bind;
+import static com.richard.servicedemo.R.id.text;
 //import com.richard.servicedemo.MyService.MyBinder;
 
 public class MainActivity extends AppCompatActivity {
@@ -38,11 +41,42 @@ public class MainActivity extends AppCompatActivity {
 
             try {
                 String color =  binder.getColor();
-                double weight = binder.getWeight(20);
+                double weight = binder.getWeight(200);
                 Log.d("Richard", " ========= Message: " + color + " and weight is " + weight);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
+
+
+            Person person = new Person();
+            person.setName("richard");
+            person.setAge(20);
+            person.setTelNumber("11111111");
+
+            try {
+                binder.savePersonInfo(person);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+
+            List<Person> list = null;
+            try {
+                list = binder.getAllPerson();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+
+            if(list != null){
+                StringBuilder stringBuilder = new StringBuilder();
+                for(Person person1 : list){
+                    stringBuilder.append(person.getName());
+                    stringBuilder.append(person.getAge());
+                    stringBuilder.append(person.getTelNumber());
+                }
+
+                Log.d(TAG, " ====== Person:  " + stringBuilder);
+            }
+
         }
 
         @Override
